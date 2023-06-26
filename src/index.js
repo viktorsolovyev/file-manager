@@ -1,24 +1,39 @@
 import { stdin as input, stdout as output, argv } from 'node:process';
 import * as readline from 'node:readline';
-let username = 'Anonymous';
+import * as os from 'node:os';
 
-const exit = function () {
-  output.write(`Thank you for using File Manager, ${username}, goodbye!\n`);
+const state = {
+  username: 'Anonymous',
+  cwd: os.homedir(),
+};
+
+const printCWD = () => {
+  console.log(`You are currently in ${state.cwd}`);
+};
+
+const exit = () => {
+  output.write(
+    `Thank you for using File Manager, ${state.username}, goodbye!\n`
+  );
   process.exit(0);
 };
 
 const index = async () => {
-  let usernameArgv = argv.slice(2, 3).toString();
-  if (usernameArgv.indexOf('--username=') > -1) {
-    username = usernameArgv.replace('--username=', '');
+  let username = argv.slice(2, 3).toString();
+  if (username.indexOf('--username=') > -1) {
+    state.username = username.replace('--username=', '');
   }
 
-  console.log(`Welcome to the File Manager, ${username}!`);
+  console.log(`Welcome to the File Manager, ${state.username}!`);
+  printCWD();
 
   const rl = readline.createInterface({ input, output });
 
   rl.on('line', (text) => {
-    if (text == '.exit') exit();
+    if (text == '.exit') {
+      rl.close();
+      exit();
+    }
     console.log(text);
   })
     .on('SIGINT', () => {

@@ -21,4 +21,8 @@ export const oscmds = async (command) => {
   if (command == '--username') {
     console.log(os.userInfo().username);
   }
+
+  if (command == '--architecture') {
+    console.log(os.arch());
+  }
 };

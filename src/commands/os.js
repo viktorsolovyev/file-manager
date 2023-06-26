@@ -17,4 +17,8 @@ export const oscmds = async (command) => {
   if (command == '--EOL') {
     console.log(JSON.stringify(os.EOL));
   }
+
+  if (command == '--username') {
+    console.log(os.userInfo().username);
+  }
 };

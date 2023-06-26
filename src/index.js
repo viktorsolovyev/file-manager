@@ -56,6 +56,7 @@ const startFileManager = async () => {
       // cat
       if (inputArray[0] == 'cat') {
         await cat(text.replace('cat ', '').trim());
+        printCWD();
       }
     } catch (error) {
       output.write(`${error.message}\n> `);

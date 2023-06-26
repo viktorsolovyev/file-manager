@@ -1,6 +1,7 @@
 import { stdin as input, stdout as output, argv } from 'node:process';
 import * as readline from 'node:readline';
 import * as os from 'node:os';
+import { list } from '../src/commands/list.js';
 
 const state = {
   username: 'Anonymous',
@@ -8,7 +9,7 @@ const state = {
 };
 
 const printCWD = () => {
-  console.log(`You are currently in ${state.cwd}`);
+  output.write(`You are currently in ${state.cwd}\n${state.cwd}>`);
 };
 
 const exit = () => {
@@ -29,12 +30,19 @@ const index = async () => {
 
   const rl = readline.createInterface({ input, output });
 
-  rl.on('line', (text) => {
+  rl.on('line', async (text) => {
+    // exit
     if (text == '.exit') {
       rl.close();
       exit();
     }
-    console.log(text);
+
+    // ls
+    if (text == 'ls') {
+      await list(state.cwd);
+    }
+    
+    printCWD();    
   })
     .on('SIGINT', () => {
       exit();

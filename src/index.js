@@ -10,7 +10,7 @@ const state = {
 };
 
 const printCWD = () => {
-  output.write(`You are currently in ${state.cwd}\n>`);
+  output.write(`You are currently in ${state.cwd}\n> `);
 };
 
 const exit = () => {

@@ -1,6 +1,4 @@
 import { readdir } from 'fs/promises';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
 
 export const list = async (folderPath) => {
   let listArray = [];
@@ -18,6 +16,6 @@ export const list = async (folderPath) => {
     });
     console.table(listArray);
   } catch {
-    throw Error('FS operation failed');
+    console.log('Operation failed');
   }
 };

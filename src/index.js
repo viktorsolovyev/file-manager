@@ -4,6 +4,8 @@ import * as os from 'node:os';
 import { list } from '../src/commands/list.js';
 import { oscmds } from '../src/commands/os.js';
 import { fs } from '../src/commands/fs/index.js';
+import { hash } from '../src/commands/hash.js';
+
 export const state = {
   username: 'Anonymous',
   cwd: os.homedir(),
@@ -85,6 +87,12 @@ const startFileManager = async () => {
       // mv
       if (inputArray[0] == 'mv') {
         await fs.mv(...text.replace('mv ', '').trim().split(' '));
+        printCWD();
+      }
+
+      // hash
+      if (inputArray[0] == 'hash') {
+        await hash(text.replace('hash ', '').trim());
         printCWD();
       }
     } catch (error) {

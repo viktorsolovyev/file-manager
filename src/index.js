@@ -2,6 +2,7 @@ import { stdin as input, stdout as output, argv } from 'node:process';
 import * as readline from 'node:readline';
 import * as os from 'node:os';
 import { list } from '../src/commands/list.js';
+import { oscmds } from '../src/commands/os.js';
 
 const state = {
   username: 'Anonymous',
@@ -9,7 +10,7 @@ const state = {
 };
 
 const printCWD = () => {
-  output.write(`You are currently in ${state.cwd}\n${state.cwd}>`);
+  output.write(`You are currently in ${state.cwd}\n>`);
 };
 
 const exit = () => {
@@ -31,6 +32,8 @@ const index = async () => {
   const rl = readline.createInterface({ input, output });
 
   rl.on('line', async (text) => {
+    const inputArray = text.split(' ');
+
     // exit
     if (text == '.exit') {
       rl.close();
@@ -41,8 +44,13 @@ const index = async () => {
     if (text == 'ls') {
       await list(state.cwd);
     }
-    
-    printCWD();    
+
+    // os
+    if (inputArray[0] == 'os') {
+      await oscmds(inputArray[1]);
+    }
+
+    printCWD();
   })
     .on('SIGINT', () => {
       exit();

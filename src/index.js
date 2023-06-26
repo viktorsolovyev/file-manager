@@ -3,10 +3,7 @@ import * as readline from 'node:readline';
 import * as os from 'node:os';
 import { list } from '../src/commands/list.js';
 import { oscmds } from '../src/commands/os.js';
-import { cat } from '../src/commands/fs/cat.js';
-import { add } from '../src/commands/fs/add.js';
-import { rn } from '../src/commands/fs/rn.js';
-
+import { fs } from '../src/commands/fs/index.js';
 export const state = {
   username: 'Anonymous',
   cwd: os.homedir(),
@@ -57,19 +54,25 @@ const startFileManager = async () => {
 
       // cat
       if (inputArray[0] == 'cat') {
-        await cat(text.replace('cat ', '').trim());
+        await fs.cat(text.replace('cat ', '').trim());
         printCWD();
       }
 
       // add
       if (inputArray[0] == 'add') {
-        await add(text.replace('add ', '').trim());
+        await fs.add(text.replace('add ', '').trim());
         printCWD();
       }
-      
+
       // rn
       if (inputArray[0] == 'rn') {
-        await rn(...text.replace('rn ', '').trim().split(' '));
+        await fs.rn(...text.replace('rn ', '').trim().split(' '));
+        printCWD();
+      }
+
+      // cp
+      if (inputArray[0] == 'cp') {
+        await fs.cp(...text.replace('cp ', '').trim().split(' '));
         printCWD();
       }
     } catch (error) {

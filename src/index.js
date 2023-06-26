@@ -6,6 +6,7 @@ import { oscmds } from '../src/commands/os.js';
 import { fs } from '../src/commands/fs/index.js';
 import { hash } from '../src/commands/hash.js';
 import { compress } from '../src/commands/compress.js';
+import { decompress } from '../src/commands/decompress.js';
 
 export const state = {
   username: 'Anonymous',
@@ -100,6 +101,12 @@ const startFileManager = async () => {
       // compress
       if (inputArray[0] == 'compress') {
         await compress(...text.replace('compress ', '').trim().split(' '));
+        printCWD();
+      }
+
+      // decompress
+      if (inputArray[0] == 'decompress') {
+        await decompress(...text.replace('decompress ', '').trim().split(' '));
         printCWD();
       }
     } catch (error) {

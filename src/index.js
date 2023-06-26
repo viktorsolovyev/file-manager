@@ -110,7 +110,7 @@ const startFileManager = async () => {
         printCWD();
       }
     } catch (error) {
-      output.write(`${error.message}\n> `);
+      output.write(`Operation failed\n> `);
     }
   })
     .on('SIGINT', () => {

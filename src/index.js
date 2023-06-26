@@ -4,6 +4,7 @@ import * as os from 'node:os';
 import { list } from '../src/commands/list.js';
 import { oscmds } from '../src/commands/os.js';
 import { cat } from '../src/commands/fs/cat.js';
+import { add } from '../src/commands/fs/add.js';
 
 export const state = {
   username: 'Anonymous',
@@ -56,6 +57,12 @@ const startFileManager = async () => {
       // cat
       if (inputArray[0] == 'cat') {
         await cat(text.replace('cat ', '').trim());
+        printCWD();
+      }
+
+      // add
+      if (inputArray[0] == 'add') {
+        await add(text.replace('add ', '').trim());
         printCWD();
       }
     } catch (error) {

@@ -3,8 +3,9 @@ import * as readline from 'node:readline';
 import * as os from 'node:os';
 import { list } from '../src/commands/list.js';
 import { oscmds } from '../src/commands/os.js';
+import { cat } from '../src/commands/fs/cat.js';
 
-const state = {
+export const state = {
   username: 'Anonymous',
   cwd: os.homedir(),
 };
@@ -20,7 +21,8 @@ const exit = () => {
   process.exit(0);
 };
 
-const index = async () => {
+const startFileManager = async () => {
+  const rl = readline.createInterface({ input, output });
   let username = argv.slice(2, 3).toString();
   if (username.indexOf('--username=') > -1) {
     state.username = username.replace('--username=', '');
@@ -29,28 +31,35 @@ const index = async () => {
   console.log(`Welcome to the File Manager, ${state.username}!`);
   printCWD();
 
-  const rl = readline.createInterface({ input, output });
-
   rl.on('line', async (text) => {
     const inputArray = text.split(' ');
 
-    // exit
-    if (text == '.exit') {
-      rl.close();
-      exit();
-    }
+    try {
+      // exit
+      if (text == '.exit') {
+        rl.close();
+        exit();
+      }
 
-    // ls
-    if (text == 'ls') {
-      await list(state.cwd);
-    }
+      // ls
+      if (text == 'ls') {
+        await list(state.cwd);
+        printCWD();
+      }
 
-    // os
-    if (inputArray[0] == 'os') {
-      await oscmds(inputArray[1]);
-    }
+      // os
+      if (inputArray[0] == 'os') {
+        await oscmds(inputArray[1]);
+        printCWD();
+      }
 
-    printCWD();
+      // cat
+      if (inputArray[0] == 'cat') {
+        await cat(text.replace('cat ', '').trim());
+      }
+    } catch (error) {
+      output.write(`${error.message}\n> `);
+    }
   })
     .on('SIGINT', () => {
       exit();
@@ -60,4 +69,4 @@ const index = async () => {
     });
 };
 
-await index();
+await startFileManager();

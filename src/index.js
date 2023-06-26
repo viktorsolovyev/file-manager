@@ -5,6 +5,7 @@ import { list } from '../src/commands/list.js';
 import { oscmds } from '../src/commands/os.js';
 import { fs } from '../src/commands/fs/index.js';
 import { hash } from '../src/commands/hash.js';
+import { compress } from '../src/commands/compress.js';
 
 export const state = {
   username: 'Anonymous',
@@ -93,6 +94,12 @@ const startFileManager = async () => {
       // hash
       if (inputArray[0] == 'hash') {
         await hash(text.replace('hash ', '').trim());
+        printCWD();
+      }
+
+      // compress
+      if (inputArray[0] == 'compress') {
+        await compress(...text.replace('compress ', '').trim().split(' '));
         printCWD();
       }
     } catch (error) {

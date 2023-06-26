@@ -75,6 +75,12 @@ const startFileManager = async () => {
         await fs.cp(...text.replace('cp ', '').trim().split(' '));
         printCWD();
       }
+
+      // rm
+      if (inputArray[0] == 'rm') {
+        await fs.rm(text.replace('rm ', '').trim());
+        printCWD();
+      }
     } catch (error) {
       output.write(`${error.message}\n> `);
     }

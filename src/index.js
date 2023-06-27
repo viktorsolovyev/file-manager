@@ -3,7 +3,10 @@ import * as readline from 'node:readline';
 import * as os from 'node:os';
 import { list } from '../src/commands/list.js';
 import { oscmds } from '../src/commands/os.js';
-import { cat } from '../src/commands/fs/cat.js';
+import { fs } from '../src/commands/fs/index.js';
+import { hash } from '../src/commands/hash.js';
+import { compress } from '../src/commands/compress.js';
+import { decompress } from '../src/commands/decompress.js';
 
 export const state = {
   username: 'Anonymous',
@@ -55,10 +58,59 @@ const startFileManager = async () => {
 
       // cat
       if (inputArray[0] == 'cat') {
-        await cat(text.replace('cat ', '').trim());
+        await fs.cat(text.replace('cat ', '').trim());
+        printCWD();
+      }
+
+      // add
+      if (inputArray[0] == 'add') {
+        await fs.add(text.replace('add ', '').trim());
+        printCWD();
+      }
+
+      // rn
+      if (inputArray[0] == 'rn') {
+        await fs.rn(...text.replace('rn ', '').trim().split(' '));
+        printCWD();
+      }
+
+      // cp
+      if (inputArray[0] == 'cp') {
+        await fs.cp(...text.replace('cp ', '').trim().split(' '));
+        printCWD();
+      }
+
+      // rm
+      if (inputArray[0] == 'rm') {
+        await fs.rm(text.replace('rm ', '').trim());
+        printCWD();
+      }
+
+      // mv
+      if (inputArray[0] == 'mv') {
+        await fs.mv(...text.replace('mv ', '').trim().split(' '));
+        printCWD();
+      }
+
+      // hash
+      if (inputArray[0] == 'hash') {
+        await hash(text.replace('hash ', '').trim());
+        printCWD();
+      }
+
+      // compress
+      if (inputArray[0] == 'compress') {
+        await compress(...text.replace('compress ', '').trim().split(' '));
+        printCWD();
+      }
+
+      // decompress
+      if (inputArray[0] == 'decompress') {
+        await decompress(...text.replace('decompress ', '').trim().split(' '));
+        printCWD();
       }
     } catch (error) {
-      output.write(`${error.message}\n> `);
+      output.write(`Operation failed\n> `);
     }
   })
     .on('SIGINT', () => {
